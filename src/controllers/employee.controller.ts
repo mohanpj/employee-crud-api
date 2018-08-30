@@ -6,7 +6,7 @@ import { EmployeeService } from '../services/employee.service';
 import TYPES from '../constants/types';
 import { Employee } from '../models/employee.model';
 
-@controller('/api/v1')
+@controller('/api')
 export class EmployeeController implements interfaces.Controller {
 
     constructor(@inject(TYPES.EmployeeService) private employeeService: EmployeeService) {
@@ -18,17 +18,17 @@ export class EmployeeController implements interfaces.Controller {
         return this.employeeService.getEmployees();
     }
 
-    @httpPost('/')
+    @httpPost('/employee')
     public addEmployee(request: Request): string {
         return this.employeeService.addEmployee(request.body);
     }
 
-    @httpPut('/:id')
+    @httpPut('/employee/:id')
     public updateEmployee(request: Request): Employee {
         return this.employeeService.updateEmployee(request.params.id, request.body);
     }
 
-    @httpDelete('/:id')
+    @httpDelete('/employee/:id')
     public deleteEmployee(request: Request): string {
         return this.employeeService.deleteEmployee(request.params.id);
     }

@@ -28,7 +28,6 @@ export class EmployeeService {
                 employees: [],
             }).write();
         }
-        // this.database.defaults({ employees: [] }).write();
     }
 
     getEmployees() {
