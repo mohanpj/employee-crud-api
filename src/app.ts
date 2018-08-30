@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
+import * as cors from 'cors';
 
 import { IAppConfig, IRouteDescription } from './interfaces/index.d';
 
@@ -27,6 +28,7 @@ export default class Application {
     }
 
     private initMiddleware(): void {
+        this.app.options('*', cors());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
         this.app.use(cookieParser());

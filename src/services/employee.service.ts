@@ -1,15 +1,32 @@
-import low from 'lowdb';
-import FileSync from 'lowdb/adapters/FileSync';
+import * as low from 'lowdb';
+import * as FileSync from 'lowdb/adapters/FileSync';
+import * as Memory from 'lowdb/adapters/Memory';
+import * as crypto from 'crypto';
+import * as path from 'path';
+
 import { Employee } from './../models/employee.model';
-import crypto from 'crypto';
 
 export class EmployeeService {
-    private dbFile = './../data/employees.json';
+    private dbFile = path.join(__dirname, './../data/employees.json');
     database: any;
     employees: Employee;
+
+    constructor() {
+    }
+
     init() {
-        const adapter = new FileSync(this.dbFile);
+        const fileAdapter = new FileSync(this.dbFile);
+        const inMemory = new Memory('employees.json');
+        const adapter = (process.env.NODE_ENV === 'test') ? inMemory : fileAdapter;
         this.database = low(adapter);
+
+        // Default db file setup example..
+        if (!this.database.has('employees').value()) {
+            this.database.defaults({
+                employees: [],
+            }).write();
+        }
+        // this.database.defaults({ employees: [] }).write();
     }
 
     getEmployees() {
@@ -19,14 +36,15 @@ export class EmployeeService {
 
     addEmployee(employee: Employee) {
         const euid = crypto.randomBytes(3 * 4).toString('base64');
-        this.database.get('employees').push({
-            uid: euid,
-            name: employee.name,
-            designation: employee.designation,
-            email: employee.email,
-            location: employee.location,
-            salary: employee.salary,
-        });
+        this.database.get('employees')
+            .push({
+                uid: euid,
+                name: employee.name,
+                designation: employee.designation,
+                email: employee.email,
+                location: employee.location,
+                salary: employee.salary,
+            }).write();
     }
 
     updateEmployee(employee: Employee) {
