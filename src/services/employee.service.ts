@@ -1,8 +1,8 @@
+import * as crypto from 'crypto';
+import * as path from 'path';
 import * as low from 'lowdb';
 import * as FileSync from 'lowdb/adapters/FileSync';
 import * as Memory from 'lowdb/adapters/Memory';
-import * as crypto from 'crypto';
-import * as path from 'path';
 import { injectable } from 'inversify';
 
 import { Employee } from './../models/employee.model';
@@ -13,8 +13,7 @@ export class EmployeeService {
     db: any;
     employees: Employee[];
 
-    constructor() {
-    }
+    constructor() { }
 
     init(env?: string) {
         const fileAdapter = new FileSync(this.dbFile);

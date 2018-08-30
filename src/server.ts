@@ -3,8 +3,6 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import { Container } from 'inversify';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import 'crypto';
-import 'path';
 
 import TYPES from './constants/types';
 import { EmployeeService } from './services/employee.service';
