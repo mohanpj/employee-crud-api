@@ -10,7 +10,7 @@ import { Employee } from './../models/employee.model';
 @injectable()
 export class EmployeeService {
     private dbFile = path.join(__dirname, './../data/employees.json');
-    database: any;
+    db: any;
     employees: Employee[];
 
     constructor() {
@@ -20,11 +20,11 @@ export class EmployeeService {
         const fileAdapter = new FileSync(this.dbFile);
         const inMemory = new Memory('employees.json');
         const adapter = (env === 'test') ? inMemory : fileAdapter;
-        this.database = low(adapter);
+        this.db = low(adapter);
 
         // Default db file setup example..
-        if (!this.database.has('employees').value()) {
-            this.database.defaults({
+        if (!this.db.has('employees').value()) {
+            this.db.defaults({
                 employees: [],
             }).write();
         }
@@ -32,13 +32,13 @@ export class EmployeeService {
     }
 
     getEmployees() {
-        this.employees = this.database.get('employees');
+        this.employees = this.db.get('employees');
         return this.employees;
     }
 
     addEmployee(employee: Employee) {
         const euid = crypto.randomBytes(3 * 4).toString('base64');
-        this.database.get('employees')
+        this.db.get('employees')
             .push({
                 uid: euid,
                 name: employee.name,
@@ -51,7 +51,7 @@ export class EmployeeService {
     }
 
     updateEmployee(employeeId: string, employee: Employee) {
-        this.database.get('employees')
+        this.db.get('employees')
             .find({ uid: employee.uid })
             .assign({
                 name: employee.name,
@@ -64,7 +64,7 @@ export class EmployeeService {
     }
 
     deleteEmployee(id: string) {
-        this.database.get('employees')
+        this.db.get('employees')
             .remove({ uid: id })
             .write();
         return id;

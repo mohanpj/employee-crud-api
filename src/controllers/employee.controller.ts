@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { injectable, inject } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpGet, httpPost, httpPut, httpDelete, interfaces } from 'inversify-express-utils';
 import { EmployeeService } from '../services/employee.service';
 
@@ -7,9 +7,7 @@ import TYPES from '../constants/types';
 import { Employee } from '../models/employee.model';
 
 @controller('/api/v1')
-// @injectable()
 export class EmployeeController implements interfaces.Controller {
-// export class EmployeeController {
 
     constructor(@inject(TYPES.EmployeeService) private employeeService: EmployeeService) {
         employeeService.init();
