@@ -5,6 +5,8 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
+        "lib": ["es6", "dom"],
+        "types": ["reflect-metadata"],
         "allowSyntheticDefaultImports": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -18,7 +20,7 @@
         "paths": {
             "*": [
                 "node_modules/@types/*",
-                "./src/types/*"
+                // "./src/types/*"
             ]
         }
     },
