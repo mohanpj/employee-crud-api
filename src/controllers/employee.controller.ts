@@ -33,10 +33,6 @@ export class EmployeeController extends BaseHttpController {
     public async addEmployee(@request() req: Request, @response() res: Response) {
         try {
             const result = await this.employeeService.addEmployee(req.body);
-            // const httpResponse = new HttpResponseMessage(201);
-            // httpResponse.content = new JsonResult(result);
-            // // res.sendStatus(201);
-            // return httpResponse;
             res.status(201).json({ result });
         } catch (error) {
             res.status(500).json({ error: error.message });
