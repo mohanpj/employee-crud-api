@@ -23,9 +23,11 @@ server.setConfig((app) => {
 const serverInstance = server.build();
 serverInstance.listen(port);
 
-console.log(`Server is listening on localhost:${port}/api`),
-console.log('API URL Details:');
-console.log(`GET: http://localhost:${port}/api/employees`);
-console.log(`POST: http://localhost:${port}/api/employee`);
-console.log(`PUT: http://localhost:${port}/api/employee/:id`);
-console.log(`DELETE: http://localhost:${port}/api/employee/:id`);
+console.log(`Server is listening on http://localhost:${port}/api`),
+console.log('Press CTRL-C to stop');
+
+// console.log('API URL Details:');
+// console.log(`GET: http://localhost:${port}/api/employees`);
+// console.log(`POST: http://localhost:${port}/api/employee`);
+// console.log(`PUT: http://localhost:${port}/api/employee/:id`);
+// console.log(`DELETE: http://localhost:${port}/api/employee/:id`);
