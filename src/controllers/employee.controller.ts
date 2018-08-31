@@ -1,15 +1,26 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { inject } from 'inversify';
-import { controller, httpGet, httpPost, httpPut, httpDelete, interfaces } from 'inversify-express-utils';
+import {
+    controller,
+    httpGet,
+    httpPost,
+    httpPut,
+    httpDelete,
+    request,
+    response,
+    BaseHttpController,
+    HttpResponseMessage,
+    StringContent } from 'inversify-express-utils';
 import { EmployeeService } from '../services/employee.service';
 
 import TYPES from '../constants/types';
 import { Employee } from '../models/employee.model';
 
 @controller('/api')
-export class EmployeeController implements interfaces.Controller {
+export class EmployeeController extends BaseHttpController {
 
     constructor(@inject(TYPES.EmployeeService) private employeeService: EmployeeService) {
+        super();
         employeeService.init();
     }
 
@@ -19,17 +30,40 @@ export class EmployeeController implements interfaces.Controller {
     }
 
     @httpPost('/employee')
-    public addEmployee(request: Request): string {
-        return this.employeeService.addEmployee(request.body);
+    public async addEmployee(@request() req: Request, @response() res: Response) {
+        try {
+            const result = await this.employeeService.addEmployee(req.body);
+            // const httpResponse = new HttpResponseMessage(201);
+            // httpResponse.content = new JsonResult(result);
+            // // res.sendStatus(201);
+            // return httpResponse;
+            res.status(201).json({ result });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
     @httpPut('/employee/:id')
-    public updateEmployee(request: Request): Employee {
-        return this.employeeService.updateEmployee(request.params.id, request.body);
+    public updateEmployee(@request() req: Request, @response() res: Response) {
+        try {
+            const result = this.employeeService.updateEmployee(req.params.id, req.body);
+            if (result) {
+                res.sendStatus(204);
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
     @httpDelete('/employee/:id')
-    public deleteEmployee(request: Request): string {
-        return this.employeeService.deleteEmployee(request.params.id);
+    public deleteEmployee(@request() req: Request, @response() res: Response) {
+        try {
+            const result = this.employeeService.deleteEmployee(req.params.id);
+            if (result) {
+                res.sendStatus(204);
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 }

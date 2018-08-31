@@ -19,6 +19,12 @@ server.setConfig((app) => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 });
+server.setErrorConfig((app) => {
+    app.use((err, req, res, next) => {
+        console.error(err.stack);
+        res.status(500).send('Error while processing the request!');
+    });
+});
 
 const serverInstance = server.build();
 serverInstance.listen(port);
