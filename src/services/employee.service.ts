@@ -15,10 +15,10 @@ export class EmployeeService {
 
     constructor() { }
 
-    init(env?: string) {
+    init() {
         const fileAdapter = new FileSync(this.dbFile);
         const inMemory = new Memory('employees.json');
-        const adapter = (env === 'test') ? inMemory : fileAdapter;
+        const adapter = (process.env.NODE_ENV === 'test') ? inMemory : fileAdapter;
         this.db = low(adapter);
 
         // Default db file setup example..
@@ -29,8 +29,8 @@ export class EmployeeService {
         }
     }
 
-    getEmployees() {
-        this.employees = this.db.get('employees');
+    getEmployees(): Employee[] {
+        this.employees = this.db.get('employees').value();
         return this.employees;
     }
 

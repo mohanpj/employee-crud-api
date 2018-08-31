@@ -13,8 +13,8 @@
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve\"",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "jest",
-    "test:cov": "jest --coverage",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test:cov": "NODE_ENV=test jest --coverage --detectOpenHandles",
     "webpack": "webpack --config webpack.config.js"
   },
   "keywords": [],
@@ -59,7 +59,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

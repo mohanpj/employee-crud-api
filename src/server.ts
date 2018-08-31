@@ -27,10 +27,12 @@ server.setErrorConfig((app) => {
 });
 
 const serverInstance = server.build();
-serverInstance.listen(port);
+const serverObject = serverInstance.listen(port);
 
 console.log(`Server is listening on http://localhost:${port}/api`),
 console.log('Press CTRL-C to stop');
+
+module.exports = serverObject;
 
 // console.log('API URL Details:');
 // console.log(`GET: http://localhost:${port}/api/employees`);
