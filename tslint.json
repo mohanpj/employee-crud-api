@@ -42,7 +42,6 @@
       "object-literal-sort-keys": false,
       "no-unused-expression": false,
       "no-console":false,
-      // "max-classes-per-file": [ false ],
       "variable-name": [
         false
       ],
